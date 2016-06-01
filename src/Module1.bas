@@ -1,11 +1,13 @@
 Attribute VB_Name = "GeneralModule"
+'******************************
+'ModuleName: GenralModule
+'Date 2012/2/18 14.55
+'******************************
+
 '注释中的括号为命名说明
 Option Explicit
 Option Base 1
 
-Public HFWnd As Long '(Hwnd of Last Foreground Window)
-Public LastHFWnd As Long '(Hwnd of Last Foreground Window)
-Public HBG As Long '(Hwnd of Frm_BG)
 Public NewColor(23) As Long
 Public OriginalColor(23) As Long '用来储存原本的系统颜色(Value of Original SysColor)
 Public ColorCategories(23) As Long '用来存放改变的颜色类别
@@ -14,40 +16,39 @@ Public DelayShutDown As Boolean '用来标记时间对话框的显示类型,true为延时输入,fal
 Public ShutDownTime  '用来表示关机时间
 Public OriginalThemesStatus As Boolean  ' 用来标记原本用户是否使用了Themes服务
 Public preWinProc As Long '存储原本窗口过程的地址
+Public DelightStatus As Boolean '关灯状态标识,0为未启动关灯功能,1为启动
+Public RemindCase As Byte '标识提醒信息类型,值如下
+'1:注意休息
+'2:关机提醒
 
+Public BGpath As String 'GackGround的目录
 '-----------------------------------------------------------------------------------[API Void ]
 
-Public Declare Function GetForegroundWindow Lib "user32" () As Long '获取工作窗口的句柄
 Public Declare Function SetWindowPos Lib "user32" (ByVal _
-                        hWnd As Long, ByVal _
+                        hwnd As Long, ByVal _
                         hWndInsertAfter As Long, ByVal _
-                        x As Long, ByVal _
-                        y As Long, ByVal _
+                        X As Long, ByVal _
+                        Y As Long, ByVal _
                         cx As Long, ByVal _
                         cy As Long, ByVal _
-                        wFlags As Long) As Long ' 达到Frm_BG永远在工作窗口下
+                        wFlags As Long) As Long
 Public Declare Function GetWindowLong Lib "user32" Alias "GetWindowLongA" (ByVal _
-                        hWnd As Long, ByVal _
-                        nIndex As Long) As Long ' 获取扩展样式Extend Style
+                        hwnd As Long, ByVal _
+                        nIndex As Long) As Long
 Public Declare Function GetSysColor Lib "user32" (ByVal nIndex As Long) As Long ' 获得系统颜色
 Public Declare Function SetSysColors Lib "user32" (ByVal _
                         nChanges As Long, _
                         lpSysColor As Long, _
                         lpColorValues As Long) As Long ' 设置系统颜色
 Public Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" (ByVal _
-                        hWnd As Long, ByVal _
+                        hwnd As Long, ByVal _
                         nIndex As Long, ByVal _
                         dwNewLong As Long) As Long ' 要设置扩展样式
-Private Declare Function SetLayeredWindowAttributes Lib "user32" (ByVal _
-                        hWnd As Long, ByVal _
+Public Declare Function SetLayeredWindowAttributes Lib "user32" (ByVal _
+                        hwnd As Long, ByVal _
                         crKey As Long, ByVal _
                         bAlpha As Byte, ByVal _
                         dwFlags As Long) As Long               ' 透明用
-Private Declare Function SystemParametersInfo Lib "user32" Alias "SystemParametersInfoA" (ByVal _
-                        uAction As Long, ByVal _
-                        uParam As Long, ByRef _
-                        lpvParam As Any, ByVal _
-                        fuWinIni As Long) As Long ' 得到工作区用
 Private Declare Function ExitWindowsEx Lib "user32" (ByVal dwOptions As Long, _
                         ByVal dwReserved As Long) As Long '  关机,但还需要权限
 Private Declare Function GetCurrentProcess Lib "kernel32" () As Long ' 获得当前进程句柄
@@ -87,21 +88,53 @@ Private Declare Function StartService Lib "advapi32.dll" Alias "StartServiceA" (
 Private Declare Function CloseServiceHandle Lib "advapi32" (ByVal hSCObject As Long) As Long '对服务操作完后关闭句柄用
 Public Declare Function CallWindowProc Lib "user32" Alias "CallWindowProcA" (ByVal _
                         lpPrevWndFunc As Long, ByVal _
-                        hWnd As Long, ByVal _
+                        hwnd As Long, ByVal _
                         Msg As Long, ByVal _
                         wParam As Long, ByVal _
                         lParam As Long) As Long '对消息的热键信息判断后需要把消息传到原本的窗口进程
 Public Declare Function RegisterHotKey Lib "user32" (ByVal _
-                        hWnd As Long, ByVal _
+                        hwnd As Long, ByVal _
                         ID As Long, ByVal _
                         fsModifiers As Long, ByVal _
                         vk As Long) As Long '向系统注册热键
 Public Declare Function UnregisterHotKey Lib "user32" (ByVal _
-                        hWnd As Long, ByVal _
-                        ID As Long) As Long '解除已经注册的热键(系统不会解除注册)
+                        hwnd As Long, ByVal _
+                        ID As Long) As Long '解除已经注册的热键
+                        
+                        
+Private Declare Function ReleaseCapture Lib "user32" () As Long
+Private Declare Function SendMessage Lib "user32" Alias "SendMessageA" (ByVal _
+                                    hwnd As Long, ByVal _
+                                    wMsg As Long, ByVal _
+                                    wParam As Long, _
+                                    lParam As Long) As Long
+
+
+Public Declare Function AnimateWindow Lib "user32" (ByVal hwnd As Long, ByVal _
+                                                    dwTime As Long, ByVal _
+                                                    dwFlags As Long _
+                                                    ) As Long
+Public Declare Function ShellExecute Lib "shell32.dll" Alias "ShellExecuteA" ( _
+        ByVal hwnd As Long, _
+        ByVal lpOperation As String, _
+        ByVal lpFile As String, _
+        ByVal lpParameters As String, _
+        ByVal lpDirectory As String, _
+        ByVal nShowCmd As Long) As Long
+Private Declare Function SystemParametersInfo Lib "user32" Alias "SystemParametersInfoA" (ByVal _
+                        uAction As Long, ByVal _
+                        uParam As Long, ByRef _
+                        lpvParam As Any, ByVal _
+                        fuWinIni As Long) As Long
+                        
+Public Declare Function FindWindow Lib "user32" Alias "FindWindowA" (ByVal _
+                        lpClassName As String, ByVal _
+                        lpWindowName As String) As Long
 
 '--------------------------------------------------------------------------------- [Constants]
 
+Public Const SWP_SHOWWINDOW = &H40
+Public Const HWND_TOPMOST = -1
 Public Const SWP_NOACTIVATE = &H10
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1 'SetWindowPos
@@ -110,8 +143,7 @@ Private Const GWL_EXSTYLE = (-20) 'GetWindowLong
 
 Private Const WS_EX_LAYERED As Long = &H80000
 Private Const WS_EX_TRANSPARENT As Long = &H20& 'SetWindowLong
-Private Const LWA_ALPHA As Long = &H2 'SetLayeredWindowAttributes
-Private Const SPI_GETWORKAREA = 48 '取得工作区大小,用以将Frm_BG覆盖除了任务栏之外的整个区域
+Public Const LWA_ALPHA As Long = &H2 'SetLayeredWindowAttributes
 Private Const SPI_SETGRADIENTCAPTIONS = &H1009 '用以启用窗口标题栏渐变效果
 Private Const COLOR_BACKGROUND = 1 '桌面颜色
 Private Const COLOR_WINDOW = 5 '一般窗口背景
@@ -152,16 +184,19 @@ Private Const SERVICE_QUERY_STATUS = &H4 'QueryServiceStatus需要的访问权
 Private Const SERVICE_CONTROL_STOP As Long = 1&
 Private Const SERVICE_RUNNING = &H4
 
+Public Const WM_CLOSE = &H10
 Public Const WM_HOTKEY = &H312 '热键消息常数
 Public Const MOD_ALT = &H1
+
+Private Const HTCAPTION = 2
+Private Const WM_NCLBUTTONDOWN = &HA1 '窗体拖动实现
+
+Public Const AW_BLEND = &H80000
+Public Const AW_ACTIVATE = &H20000
+
+Public Const SW_SHOWNORMAL = 1
 '--------------------------------------------------------------------------------- [Type]
 
-Public Type RECT
-        Left As Long
-        Top As Long
-        Right As Long
-        Bottom As Long
-End Type  'SystemParametersInfo的lpvParam参数在SPI_GETWkarea下的结构要求
 
 Private Type LUID
      UsedPart As Long
@@ -196,10 +231,10 @@ Sub Main()
 End Sub
 
 
-Public Function WndProc(ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
+Public Function WndProc(ByVal hwnd As Long, ByVal Msg As Long, ByVal wParam As Long, ByVal lParam As Long) As Long
     If Msg = WM_HOTKEY Then '如果是热键消息
         If wParam = 1 Then '如果是本程序定义的
-            If frmHelp.Visible = False Then ' 帮助窗口也没有显示
+            If frmHelp.Visible = False Then  ' 帮助窗口没有显示
                 Call WindowShowHide(frm_Main)
                 Exit Function
             Else
@@ -207,32 +242,7 @@ Public Function WndProc(ByVal hWnd As Long, ByVal Msg As Long, ByVal wParam As L
             End If
         End If
     End If
-    WndProc = CallWindowProc(preWinProc, hWnd, Msg, wParam, lParam)
-End Function
-
-
-Public Sub Frm_Maximum(frm As Form)
-    Dim wkarea As RECT
-    SystemParametersInfo SPI_GETWORKAREA, 0, wkarea, 0
-    With frm
-        .Left = wkarea.Left * Screen.TwipsPerPixelX
-        .Top = wkarea.Top * Screen.TwipsPerPixelY
-        .Width = (wkarea.Right - wkarea.Left) * Screen.TwipsPerPixelX
-        .Height = (wkarea.Bottom - wkarea.Top) * Screen.TwipsPerPixelY
-    End With
-End Sub
-
-
-Public Function Judge(ByVal Lhwnd, ByVal Phwnd) As Boolean
-    If (Lhwnd <> Phwnd) And _
-        (Lhwnd <> 0) And _
-        (Phwnd <> 0) And _
-        (Phwnd <> Frm_BG.hWnd) And _
-        (Phwnd <> frm_Main.hWnd) Then
-        Judge = True
-    Else
-    Judge = False
-    End If
+    WndProc = CallWindowProc(preWinProc, hwnd, Msg, wParam, lParam)
 End Function
 
 
@@ -307,12 +317,21 @@ Public Sub ShutDown() ' 关机
 End Sub
 
 
-Public Sub WindowTransparent(hWnd, Optional value)  '改变`设置透明度
-    If IsMissing(value) = True Then
-        SetWindowLong hWnd, GWL_EXSTYLE, (GetWindowLong(hWnd, GWL_EXSTYLE) Or WS_EX_LAYERED Or WS_EX_TRANSPARENT)
-        SetLayeredWindowAttributes hWnd, 0, 150, LWA_ALPHA
-    Else
-        SetLayeredWindowAttributes hWnd, 0, value, LWA_ALPHA
+Public Sub WindowTransparent(hwnd, Optional value, Optional NoTrans)  '改变`设置透明度
+    If IsMissing(NoTrans) = True Then
+        If IsMissing(value) = True Then
+            SetWindowLong hwnd, GWL_EXSTYLE, (GetWindowLong(hwnd, GWL_EXSTYLE) Or WS_EX_LAYERED Or WS_EX_TRANSPARENT)
+            SetLayeredWindowAttributes hwnd, 0, 150, LWA_ALPHA
+        Else
+            SetLayeredWindowAttributes hwnd, 0, value, LWA_ALPHA
+        End If
+    ElseIf IsMissing(NoTrans) = False Then
+        If IsMissing(value) = True Then
+            SetWindowLong hwnd, GWL_EXSTYLE, (GetWindowLong(hwnd, GWL_EXSTYLE) Or WS_EX_LAYERED)
+            SetLayeredWindowAttributes hwnd, 0, 235, LWA_ALPHA
+        Else
+            SetLayeredWindowAttributes hwnd, 0, value, LWA_ALPHA
+        End If
     End If
 End Sub
 
@@ -365,75 +384,39 @@ Public Sub WindowShowHide(Form As Form)  ' 用于隐藏显示窗口
 End Sub
 
 
-'未使用的
-'***************************************************************
-'Judge函数被舍弃的两个算法,原因:不清晰
-'算法1
-'Public Function Judge2(ByVal Lhwnd As Long, ByVal Phwnd As Long) As Boolean
-'If Lhwnd <> Phwnd Then
-'    If (Lhwnd <> 0) And (Phwnd <> 0) Then
-'        If (Phwnd <> FrmBG.hWnd) And (Phwnd <> FrmCtrl.hWnd) Then
-'            Judge2 = True
-'            Exit Function
-'        Else
-'            Judge2 = False
-'            Exit Function
-'        End If
-'    Else
-'        Judge2 = False
-'        Exit Function
-'    End If
-'Else
-'    Judg2e = False
-'    Exit Function
-'End If
-'End Function
 
 
-''算法2
-'Public Function Judge3(ByVal Lhwnd, ByVal Phwnd) As Boolean
-'If Lhwnd = Phwnd Then
-'Judge3 = False
-'Exit Function
-'End If
-'If (Lhwnd = 0) Or (Phwnd = 0) Then
-'Judge3 = False
-'Exit Function
-'End If
-'If (Phwnd = FrmBG.hWnd) Or (Phwnd = FrmCtrl.hWnd) Then
-'Judge3 = False
-'Exit Function
-'End If
-'Judge3 = True
-'End Function
+Public Sub DragWindow(Button, hwnd)
+    If Button = vbLeftButton Then
+        ReleaseCapture
+        SendMessage hwnd, WM_NCLBUTTONDOWN, HTCAPTION, 0
+    End If
+End Sub
 
 
+Public Sub Light()
+    
+    SendMessage FindWindow(vbNullString, "A4EBKGROUND"), WM_CLOSE, 0, 0
+   
+    frm_Main.ScoBar.Visible = False
+    frm_Main.Img_Barback.Visible = False
+    frm_Main.Img_Light.Visible = False
+    frm_Main.Img_Delight.Visible = True
+'    If frm_Mini.Visible = True Then frm_Mini.Picture = frm_Mini.ImgLst1.ListImages(1).Picture
+    
+    DelightStatus = 0
+End Sub
 
-'为了最大化frmBG写的,任务栏高度计算,后来发现思路有漏洞,如果仅仅用这种方式计算,当任务栏不在屏幕底部的时候,
-'不仅会得到错误的任务栏高度,而且据此数据进行最大化也会出问题
-'SystemParametersInfo SPI_GETWORKAREA, 0, wkarea, 0
-''***************************思路
-'wkarea.Bottom '工作区高 / Pixel
-''TwipsPerPixel = Twips/Pixel
-''==>Twips = Pixel*TwipsPerPixel
-''==>Pixel =Twips/TwipsPerPixel
-'TaskBarHeight = Screen.Height - wkarea.Bottom * Screen.TwipsPerPixelY 'Twip = Twip - Pixel*TwipsPerPixel ====>Twip = Twip - Twip
-''****************************
-''写成Function
-'Public Function GetTaskBarHeight() As Long
-'Private Declare Function SystemParametersInfo Lib "user32" Alias "SystemParametersInfoA" (ByVal _
-'                        uAction As Long, ByVal _
-'                        uParam As Long, ByVal _
-'                        lpvParam As Any, ByVal _
-'                        fuWinIni As Long) As Long
-'Private Type RECT 'SystemParametersInfo的lpvParam参数在SPI_GETWORKAREA下的结构要求
-'        Left As Long
-'        Top As Long
-'        Right As Long
-'        Bottom As Long
-'Private TaskBar As Long
-'Private WorkArea As RECT
-'Private Const SPI_GETWORKAREA = 48 'SystemParametersInfo
-'SystemParametersInfo SPI_GETWORKAREA, 0, WorkArea, 0
-'GetTaskBarHeight = Screen.Height - WorkArea.Bottom * Screen.TwipsPerPixelY 'Twip = Twip - Pixel*TwipsPerPixel ====>Twip = Twip - Twip
-'End Function
+
+Public Sub Delight()
+    ShellExecute &H0, "open", BGpath, vbNullString, vbNullString, SW_SHOWNORMAL
+    
+    frm_Main.ScoBar.Visible = True
+    frm_Main.Img_Barback.Visible = True
+    frm_Main.Img_Light.Visible = True
+    frm_Main.Img_Delight.Visible = False
+'    If frm_Mini.Visible = True Then frm_Mini.Picture = frm_Mini.ImgLst1.ListImages(2).Picture
+    
+    DelightStatus = 1
+End Sub
+

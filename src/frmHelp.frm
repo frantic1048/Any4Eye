@@ -1,86 +1,120 @@
 VERSION 5.00
-Object = "{0D452EE1-E08F-101A-852E-02608C4D0BB4}#2.0#0"; "FM20.DLL"
 Begin VB.Form frmHelp 
+   Appearance      =   0  'Flat
    BackColor       =   &H00404040&
-   BorderStyle     =   3  'Fixed Dialog
+   BorderStyle     =   0  'None
    Caption         =   "关于我的应用程序"
-   ClientHeight    =   3555
-   ClientLeft      =   2340
-   ClientTop       =   1935
-   ClientWidth     =   5730
+   ClientHeight    =   4470
+   ClientLeft      =   7875
+   ClientTop       =   4320
+   ClientWidth     =   5745
    ClipControls    =   0   'False
    LinkTopic       =   "Form2"
+   LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   2453.724
+   Picture         =   "frmHelp.frx":0000
+   ScaleHeight     =   3085.273
    ScaleMode       =   0  'User
-   ScaleWidth      =   5380.766
+   ScaleWidth      =   5394.852
    ShowInTaskbar   =   0   'False
+   StartUpPosition =   1  '所有者中心
    Begin VB.PictureBox picIcon 
       AutoSize        =   -1  'True
       ClipControls    =   0   'False
       Height          =   780
       Left            =   120
-      Picture         =   "frmHelp.frx":0000
+      Picture         =   "frmHelp.frx":57498
       ScaleHeight     =   505.68
       ScaleMode       =   0  'User
       ScaleWidth      =   505.68
-      TabIndex        =   1
-      Top             =   240
+      TabIndex        =   0
+      Top             =   120
       Width           =   780
    End
-   Begin VB.CommandButton cmdOK 
-      Cancel          =   -1  'True
-      Caption         =   "确定"
-      Default         =   -1  'True
-      Height          =   345
-      Left            =   4125
-      TabIndex        =   0
-      Top             =   2625
-      Width           =   1500
+   Begin VB.Image img_SysInfo 
+      Height          =   615
+      Left            =   4440
+      MouseIcon       =   "frmHelp.frx":5941A
+      MousePointer    =   99  'Custom
+      Top             =   2760
+      Width           =   855
    End
-   Begin VB.CommandButton cmdSysInfo 
-      Caption         =   "系统信息(&S)..."
-      Height          =   345
-      Left            =   4140
-      TabIndex        =   2
-      Top             =   3075
-      Width           =   1485
+   Begin VB.Image img_OK 
+      Height          =   615
+      Left            =   4440
+      MouseIcon       =   "frmHelp.frx":5956C
+      MousePointer    =   99  'Custom
+      Top             =   1920
+      Width           =   855
    End
-   Begin MSForms.Label lblTitle 
+   Begin VB.Label Label1 
+      BackStyle       =   0  'Transparent
+      BorderStyle     =   1  'Fixed Single
+      Caption         =   "Frantic Black    2,Feb,2012"
+      BeginProperty Font 
+         Name            =   "宋体"
+         Size            =   7.5
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
       Height          =   375
-      Left            =   1080
-      TabIndex        =   6
-      Top             =   240
-      Width           =   3855
-      ForeColor       =   12632256
-      BackColor       =   4210752
-      VariousPropertyBits=   8388627
-      Caption         =   "Any 4 Eye"
-      Size            =   "6800;661"
-      FontName        =   "Verdana"
-      FontEffects     =   1073741825
-      FontHeight      =   300
-      FontCharSet     =   0
-      FontPitchAndFamily=   34
-      FontWeight      =   700
+      Left            =   2760
+      TabIndex        =   5
+      Top             =   1680
+      Width           =   1215
+   End
+   Begin VB.Label lbl_Link 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
+      Caption         =   "http://blog.163.com/frantic_hao/"
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   9
+         Charset         =   134
+         Weight          =   400
+         Underline       =   -1  'True
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00008000&
+      Height          =   255
+      Left            =   1680
+      MouseIcon       =   "frmHelp.frx":596BE
+      MousePointer    =   99  'Custom
+      TabIndex        =   4
+      Top             =   4080
+      Width           =   2895
    End
    Begin VB.Line Line1 
       BorderColor     =   &H00808080&
       BorderStyle     =   6  'Inside Solid
       Index           =   1
-      X1              =   84.515
-      X2              =   5309.398
-      Y1              =   1490.87
-      Y2              =   1490.87
+      X1              =   112.686
+      X2              =   5183.565
+      Y1              =   1076.74
+      Y2              =   1076.74
    End
    Begin VB.Label lblDescription 
       BackColor       =   &H00404040&
+      BackStyle       =   0  'Transparent
       Caption         =   "应用程序描述"
-      ForeColor       =   &H00FF8080&
-      Height          =   930
-      Left            =   1050
-      TabIndex        =   3
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   9
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00800080&
+      Height          =   330
+      Left            =   120
+      TabIndex        =   1
       Top             =   1125
       Width           =   3885
    End
@@ -88,30 +122,51 @@ Begin VB.Form frmHelp
       BorderColor     =   &H00FFFFFF&
       BorderWidth     =   2
       Index           =   0
-      X1              =   0
-      X2              =   5210.798
-      Y1              =   1490.87
-      Y2              =   1490.87
+      X1              =   112.686
+      X2              =   5183.565
+      Y1              =   1076.74
+      Y2              =   1076.74
    End
    Begin VB.Label lblVersion 
       BackColor       =   &H00404040&
+      BackStyle       =   0  'Transparent
       Caption         =   "版本:"
-      ForeColor       =   &H00C0C0C0&
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   9
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00000000&
       Height          =   225
-      Left            =   1050
-      TabIndex        =   5
-      Top             =   780
-      Width           =   3885
+      Left            =   4080
+      TabIndex        =   3
+      Top             =   1200
+      Width           =   1365
    End
    Begin VB.Label lblTip 
       BackColor       =   &H00808080&
+      BackStyle       =   0  'Transparent
+      BorderStyle     =   1  'Fixed Single
       Caption         =   "警告: ..."
-      ForeColor       =   &H0080FF80&
-      Height          =   1185
+      BeginProperty Font 
+         Name            =   "微软雅黑"
+         Size            =   9
+         Charset         =   134
+         Weight          =   400
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      ForeColor       =   &H00400000&
+      Height          =   2235
       Left            =   120
-      TabIndex        =   4
-      Top             =   2265
-      Width           =   3630
+      TabIndex        =   2
+      Top             =   1680
+      Width           =   3855
    End
 End
 Attribute VB_Name = "frmHelp"
@@ -147,25 +202,26 @@ Const gREGVALSYSINFOLOC = "MSINFO"
 Const gREGKEYSYSINFO = "SOFTWARE\Microsoft\Shared Tools\MSINFO"
 Const gREGVALSYSINFO = "PATH"
 
+
+
+Private Const URL = "http://blog.163.com/frantic_hao/"
+
 Private Declare Function RegOpenKeyEx Lib "advapi32" Alias "RegOpenKeyExA" (ByVal hKey As Long, ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, ByRef phkResult As Long) As Long
 Private Declare Function RegQueryValueEx Lib "advapi32" Alias "RegQueryValueExA" (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, ByRef lpType As Long, ByVal lpData As String, ByRef lpcbData As Long) As Long
 Private Declare Function RegCloseKey Lib "advapi32" (ByVal hKey As Long) As Long
 
 
-Private Sub cmdSysInfo_Click()
-  Call StartSysInfo
-End Sub
 
-Private Sub cmdOK_Click()
-  Unload Me
-End Sub
+
 
 Private Sub Form_Load()
     Me.Caption = "关于 " & App.Title
     lblVersion.Caption = "版本 " & App.Major & "." & App.Minor & "." & App.Revision
-    lblTitle.Caption = App.Title
-    lblDescription.Caption = "关灯不是Tudou,Youku们的专利!" & vbCrLf & vbCrLf & vbCrLf & "作者:郭珈豪" & vbCrLf & "2011-8-20,22:50"
-    lblTip.Caption = "提示:" & vbCrLf & "Alt + N 可以隐藏/显示本程序" & vbCrLf & "延时关机为指定的分钟数之后关机" & vbCrLf & "定时关机是在用户指定的时刻关机"
+    lblDescription.Caption = "关灯不是Tudou,Youku们才会!!"
+    lblTip.Caption = "提示:" & vbCrLf & "→Alt + N 可以隐藏/显示本程序" & vbCrLf & "→延时关机为指定的分钟数之后关机" & vbCrLf & "→定时关机是在用户指定的时刻关机" & vbCrLf & vbCrLf & vbCrLf & ">>欢迎到我的博客留言提供问题反馈与建议<<"
+    
+    WindowTransparent frmHelp.hwnd, , True
+    
 End Sub
 
 Public Sub StartSysInfo()
@@ -199,7 +255,7 @@ SysInfoErr:
 End Sub
 
 Public Function GetKeyValue(KeyRoot As Long, KeyName As String, SubKeyRef As String, ByRef KeyVal As String) As Boolean
-    Dim i As Long                                           ' 循环计数器
+    Dim I As Long                                           ' 循环计数器
     Dim rc As Long                                          ' 返回代码
     Dim hKey As Long                                        ' 打开的注册表关键字句柄
     Dim hDepth As Long                                      '
@@ -236,8 +292,8 @@ Public Function GetKeyValue(KeyRoot As Long, KeyName As String, SubKeyRef As Str
     Case REG_SZ                                             ' 字符串注册关键字数据类型
         KeyVal = tmpVal                                     ' 复制字符串的值
     Case REG_DWORD                                          ' 四字节的注册表关键字数据类型
-        For i = Len(tmpVal) To 1 Step -1                    ' 将每位进行转换
-            KeyVal = KeyVal + Hex(Asc(Mid(tmpVal, i, 1)))   ' 生成值字符。 By Char。
+        For I = Len(tmpVal) To 1 Step -1                    ' 将每位进行转换
+            KeyVal = KeyVal + Hex(Asc(Mid(tmpVal, I, 1)))   ' 生成值字符。 By Char。
         Next
         KeyVal = Format$("&h" + KeyVal)                     ' 转换四字节的字符为字符串
     End Select
@@ -251,3 +307,49 @@ GetKeyError:      ' 错误发生后将其清除...
     GetKeyValue = False                                     ' 返回失败
     rc = RegCloseKey(hKey)                                  ' 关闭注册表关键字
 End Function
+
+Private Sub Form_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    DragWindow Button, Me.hwnd
+End Sub
+
+Private Sub Form_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    lbl_Link.FontItalic = False
+End Sub
+
+Private Sub img_OK_Click()
+    Unload Me
+End Sub
+
+Private Sub img_SysInfo_Click()
+    Call StartSysInfo
+End Sub
+
+Private Sub Label1_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    DragWindow Button, Me.hwnd
+End Sub
+
+Private Sub lbl_Link_Click()
+    Dim Success As Long
+    Success = ShellExecute(0&, vbNullString, URL, vbNullString, "C:\", SW_SHOWNORMAL)
+End Sub
+
+Private Sub lbl_Link_MouseMove(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    lbl_Link.FontItalic = True
+End Sub
+
+Private Sub lblDescription_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    DragWindow Button, Me.hwnd
+End Sub
+
+Private Sub lblTip_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    DragWindow Button, Me.hwnd
+End Sub
+
+
+Private Sub lblVersion_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+    DragWindow Button, Me.hwnd
+End Sub
+
+Private Sub picIcon_MouseDown(Button As Integer, Shift As Integer, X As Single, Y As Single)
+     DragWindow Button, Me.hwnd
+End Sub
