@@ -66,7 +66,7 @@ Begin VB.Form frmTimeDialog
    End
    Begin MSForms.CommandButton cmdOK 
       Height          =   495
-      Left            =   2785
+      Left            =   2760
       TabIndex        =   1
       Top             =   145
       Width           =   855

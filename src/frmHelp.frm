@@ -9,8 +9,8 @@ Begin VB.Form frmHelp
    ClientTop       =   4320
    ClientWidth     =   5745
    ClipControls    =   0   'False
+   ControlBox      =   0   'False
    LinkTopic       =   "Form2"
-   LockControls    =   -1  'True
    MaxButton       =   0   'False
    MinButton       =   0   'False
    Picture         =   "frmHelp.frx":0000
@@ -51,21 +51,21 @@ Begin VB.Form frmHelp
    Begin VB.Label Label1 
       BackStyle       =   0  'Transparent
       BorderStyle     =   1  'Fixed Single
-      Caption         =   "Frantic Black    2,Feb,2012"
+      Caption         =   " Frantic Black     5,May,2012"
       BeginProperty Font 
-         Name            =   "ËÎÌו"
-         Size            =   7.5
-         Charset         =   134
+         Name            =   "Arial"
+         Size            =   6.75
+         Charset         =   0
          Weight          =   400
          Underline       =   0   'False
          Italic          =   0   'False
          Strikethrough   =   0   'False
       EndProperty
-      Height          =   375
-      Left            =   2760
+      Height          =   420
+      Left            =   2934
       TabIndex        =   5
       Top             =   1680
-      Width           =   1215
+      Width           =   1035
    End
    Begin VB.Label lbl_Link 
       Alignment       =   2  'Center

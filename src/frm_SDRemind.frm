@@ -29,8 +29,8 @@ Begin VB.Form frm_PicRemind
       _ExtentX        =   1005
       _ExtentY        =   1005
       BackColor       =   -2147483643
-      ImageWidth      =   600
-      ImageHeight     =   328
+      ImageWidth      =   1233
+      ImageHeight     =   675
       MaskColor       =   12632256
       UseMaskColor    =   0   'False
       _Version        =   393216
@@ -41,10 +41,29 @@ Begin VB.Form frm_PicRemind
             Key             =   ""
          EndProperty
          BeginProperty ListImage2 {2C247F27-8591-11D1-B16A-00C0F0283628} 
-            Picture         =   "frm_SDRemind.frx":90294
+            Picture         =   "frm_SDRemind.frx":261C30
             Key             =   ""
          EndProperty
       EndProperty
+   End
+   Begin VB.Label mebRemindTime 
+      Alignment       =   2  'Center
+      BackStyle       =   0  'Transparent
+      BeginProperty Font 
+         Name            =   "Arial"
+         Size            =   18
+         Charset         =   0
+         Weight          =   700
+         Underline       =   0   'False
+         Italic          =   0   'False
+         Strikethrough   =   0   'False
+      EndProperty
+      Height          =   495
+      Left            =   6000
+      TabIndex        =   0
+      Top             =   1560
+      UseMnemonic     =   0   'False
+      Width           =   1815
    End
    Begin VB.Image Image1 
       Height          =   4935

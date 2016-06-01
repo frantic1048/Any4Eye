@@ -21,7 +21,8 @@ Public RemindCase As Byte '标识提醒信息类型,值如下
 '1:注意休息
 '2:关机提醒
 
-Public BGpath As String 'GackGround的目录
+Public BGpath As String 'BackGround.exe的目录
+Public tmpRemindTime As Integer '提醒时间间隔
 '-----------------------------------------------------------------------------------[API Void ]
 
 Public Declare Function SetWindowPos Lib "user32" (ByVal _
@@ -139,6 +140,8 @@ Public Const SWP_NOACTIVATE = &H10
 Public Const SWP_NOMOVE = &H2
 Public Const SWP_NOSIZE = &H1 'SetWindowPos
 Public Const GWL_WNDPROC = (-4)
+Public Const WS_CAPTION = &HC00000
+Public Const GWL_STYLE = (-16)
 Private Const GWL_EXSTYLE = (-20) 'GetWindowLong
 
 Private Const WS_EX_LAYERED As Long = &H80000

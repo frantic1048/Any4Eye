@@ -1,19 +1,18 @@
 Type=Exe
-Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\system32\stdole2.tlb#OLE Automation
+Reference=*\G{00020430-0000-0000-C000-000000000046}#2.0#0#C:\Windows\SysWOW64\stdole2.tlb#OLE Automation
 Form=BG.frm
-IconForm="frm_BG"
 Startup="frm_BG"
 HelpFile=""
 Title="BackGround"
 ExeName32="BackGround1.0.2.exe"
-Path32="EXEs"
+Path32="..\源码及其他文件 [1049]\源码及其他文件\EXEs"
 Command32=""
 Name="BackGround"
 HelpContextID="0"
 CompatibleMode="0"
 MajorVer=1
 MinorVer=0
-RevisionVer=3
+RevisionVer=5
 AutoIncrementVer=1
 ServerSupportFiles=0
 VersionCompanyName="China"
@@ -33,3 +32,6 @@ Unattended=0
 Retained=0
 ThreadPerObject=0
 MaxNumberOfThreads=1
+
+[MS Transaction Server]
+AutoRefresh=1
