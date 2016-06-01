@@ -1,0 +1,8 @@
+行 3: 不能创建引用: '{C932BA88-4374-101B-A56C-00AA003668DC}#1.1#0'。
+行 25: 控件 MaskEdBoxTime 的类 MSMask.MaskEdBox 不是一个已加载的控件类。
+行 31: 属性名 _ExtentX 在 MaskEdBoxTime 中是无效的。
+行 32: 属性名 _ExtentY 在 MaskEdBoxTime 中是无效的。
+行 33: 属性名 _Version 在 MaskEdBoxTime 中是无效的。
+行 34: 属性名 AutoTab 在 MaskEdBoxTime 中是无效的。
+行 35: 属性名 MaxLength 在 MaskEdBoxTime 中是无效的。
+行 45: 属性名 PromptChar 在 MaskEdBoxTime 中是无效的。
